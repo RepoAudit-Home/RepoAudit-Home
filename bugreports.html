@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="RepoAudit is an open-source tool for repository quality assessment and bug management.">
+  <meta name="keywords" content="RepoAudit, Repository Audit, Bug Report, Code Quality, Open Source">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoAudit</title>
+  <!-- Optional Google Analytics -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <style>
+    /* Optional: reduce some whitespace for a more compact layout */
+    .hero .hero-body { padding: 2rem 1rem !important; }
+    .section { padding: 1.5rem 1rem !important; }
+    .container { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .box { padding: 1rem !important; margin-bottom: 1rem !important; }
+    .loading { text-align: center; font-size: 1.2em; margin-top: 20px; color: #555; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar with additional links -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="index.html">
+        <span class="icon"><i class="fas fa-home"></i></span>
+      </a>
+      <a class="navbar-item" href="bugreports.html">Bug Report</a>
+      <a class="navbar-item" href="documentation.html">Docs</a>
+      <a class="navbar-item" href="support.html">Support</a>
+      <a class="navbar-item" href="resources.html">Resource</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1">Bug Reports</h1>
+          <div class="is-size-5" style="margin-top: 1rem;">
+            The gallery of bugs discovered by RepoAudit
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Full Bug Report List Section -->
+<section class="section" id="bug-reports">
+  <div class="container is-max-desktop">
+    <div id="loading-message" class="loading">Loading bug reports...</div>
+    <table class="table is-striped is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Repository Name</th>
+          <th>Bug Type</th>
+          <th>Link</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="bug-report-table">
+        <!-- Data will be dynamically inserted here -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      Template adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfiese</a> by Keunhong Park et al.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Function to load JSON data and populate the table
+  async function loadBugReports() {
+    try {
+      const response = await fetch("static/bug/BugReport.json"); // Ensure the file is accessible
+      const bugReports = await response.json();
+      
+      const tableBody = document.getElementById("bug-report-table");
+      const loadingMessage = document.getElementById("loading-message");
+
+      // Remove loading message
+      loadingMessage.style.display = "none";
+
+      // Iterate with index to count the bug reports
+      bugReports.forEach((bug, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${bug.repo_name}</td>
+          <td>${bug.bug_type}</td>
+          <td><a href="${bug.link}" target="_blank">View Bug</a></td>
+          <td>${bug.date}</td>
+          <td>${bug.status}</td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    } catch (error) {
+      console.error("Error loading bug reports:", error);
+      document.getElementById("loading-message").textContent = "Failed to load bug reports.";
+    }
+  }
+
+  // Load bug reports on page load
+  document.addEventListener("DOMContentLoaded", loadBugReports);
+</script>
+
+</body>
+</html>
