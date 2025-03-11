@@ -84,10 +84,25 @@
       <a class="navbar-item" href="bugreports.html">Bug Report</a>
       <a class="navbar-item" href="documentation.html">Docs</a>
       <a class="navbar-item" href="support.html">Support</a>
-      <a class="navbar-item" href="resource.html">Resource</a>
+      <a class="navbar-item" href="resources.html">Resource</a>
     </div>
   </div>
 </nav>
+
+<!-- Add this script block at the end of the document (before </body>) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarBurgers = document.querySelectorAll('.navbar-burger');
+  navbarBurgers.forEach(el => {
+    el.addEventListener('click', () => {
+      const targetId = el.dataset.target;
+      const target = document.getElementById(targetId);
+      el.classList.toggle('is-active');
+      target.classList.toggle('is-active');
+    });
+  });
+});
+</script>
   
 <!-- Hero Section -->
 <section class="hero">

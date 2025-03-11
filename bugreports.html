@@ -37,6 +37,7 @@
 <body>
 
 <!-- Navbar with additional links -->
+<!-- Navbar with additional links -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
@@ -57,6 +58,21 @@
     </div>
   </div>
 </nav>
+
+<!-- Add this script block at the end of the document (before </body>) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const navbarBurgers = document.querySelectorAll('.navbar-burger');
+  navbarBurgers.forEach(el => {
+    el.addEventListener('click', () => {
+      const targetId = el.dataset.target;
+      const target = document.getElementById(targetId);
+      el.classList.toggle('is-active');
+      target.classList.toggle('is-active');
+    });
+  });
+});
+</script>
 
 <!-- Hero Section -->
 <section class="hero">
